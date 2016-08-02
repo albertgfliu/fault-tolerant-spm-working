@@ -14,4 +14,4 @@ typedef struct DataBin
 } // namespace FSPM
 
 
-#endif
+#endif // DATA_BIN_HPP

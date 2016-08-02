@@ -1,5 +1,5 @@
-#ifndef INSTRUCTIONPARSER_HPP
-#define INSTRUCTIONPARSER_HPP
+#ifndef INSTRUCTION_PARSER_HPP
+#define INSTRUCTION_PARSER_HPP
 
 #include <iostream>
 
@@ -10,14 +10,10 @@ class InstructionParser {
   public:
     InstructionParser();
     ~InstructionParser();
-    bool loadInstructions(std::istream &instructions);
-    bool loadInstructions(char *charBuf);
-
-  private:
-    std::istream & charBufToStream(char *charBuf);
+    bool loadInstructions(char *dataBuf, uint32_t dataSize);
 
 };
 
 } // namespace FSPM
 
-#endif
+#endif // INSTRUCTION_PARSER_HPP

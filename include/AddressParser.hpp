@@ -1,5 +1,5 @@
-#ifndef ADDRESSPARSER_HPP
-#define ADDRESSPARSER_HPP
+#ifndef ADDRESS_PARSER_HPP
+#define ADDRESS_PARSER_HPP
 
 /* C includes */
 #include <stdint.h>
@@ -27,4 +27,4 @@ class AddressParser
 
 } // namespace FSPM
 
-#endif
+#endif // ADDRESS_PARSER_HPP
