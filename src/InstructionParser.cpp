@@ -1,5 +1,6 @@
 #include <iostream>
 #include <InstructionParser.hpp>
+#include <ThumbIsa.hpp>
 
 using namespace FSPM;
 

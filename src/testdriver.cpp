@@ -20,4 +20,7 @@ int
 main(int argc, char **argv)
 {
     AddressParser ap;
+    InstructionParser ip;
+
+
 }
