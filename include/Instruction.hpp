@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <vector>
 
 /* Enumerate for instruction types */
 
@@ -26,8 +27,9 @@ class Instruction : public InstructionBase
     uint32_t getType();
 
   private:
-    T        m_raw_instruction; /* Holds the raw instruction in bytes */
-    uint32_t m_offset; /* Holds the offset of the instruction in the ELF */
+    T m_raw_instruction; /* Holds raw bytes */
+    uint32_t m_offset; /* Holds offset of instruction in ELF */
+    std::vector<Instruction *> m_references;
 };
 
 } // namespace FSPM

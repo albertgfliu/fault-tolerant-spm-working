@@ -16,11 +16,11 @@ OBJECTS  = $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
 	g++ -o $@ -I $(HDRDIR) $(OBJECTS)
-	@echo "Finished building."
+	-#@echo "Finished building."
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	g++ $(CPPFLAGS) -c -I $(HDRDIR) $< -o $@
-	@echo "Compiled "$<" to object file successfully."
+	-#@echo "Compiled "$<" to object file successfully."
 
 .PHONY: clean
 

@@ -8,6 +8,10 @@ AddressParser::AddressParser()
 {
 }
 
+AddressParser::~AddressParser()
+{
+}
+
 bool
 AddressParser::readAddresses(std::istream& addressStream)
 {
