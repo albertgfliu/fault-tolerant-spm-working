@@ -6,6 +6,7 @@
 
 #include <Instruction.hpp>
 #include <AddressParser.hpp>
+#include <InstructionParser.hpp>
 
 using namespace FSPM;
 using namespace ELFIO;

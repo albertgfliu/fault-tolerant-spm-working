@@ -24,7 +24,7 @@ AddressParser::readAddresses(std::istream& addressStream)
     addressStream.seekg(addressStream.beg);
 
     while (true) {
-        std::addressStream.getline(addrBuf, sizeof(addrBuf));
+        addressStream.getline(addrBuf, sizeof(addrBuf));
 
         if (addressStream.eof()) {
             break;
@@ -32,6 +32,14 @@ AddressParser::readAddresses(std::istream& addressStream)
 
         std::string addrString(addrBuf);
         
+        std::regex reg0("(0x){0,1}[a-fA-F0-9]{1,8}", std::regex_constants::icase);
+        std::sregex_iterator it(addrString.begin(), addrString.end(), reg0);
+
+        std::sregex_iterator it_end;
+
+        //while (it != it_end) {
+        //    std::cout << *it << std::endl; // temporary debug printing
+        //}
         //check format using regex
         //encode numerically, push_back into bad_addresses;
     }
@@ -57,7 +65,7 @@ AddressParser::align_bad_address(uint32_t &addr)
     addr -= (addr % sizeof(addr));
 }
 
-bool
+void
 AddressParser::alignAllBadAddresses()
 {
     std::vector<uint32_t>::iterator it;
