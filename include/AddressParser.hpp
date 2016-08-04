@@ -18,10 +18,11 @@ class AddressParser
     bool readAddresses(std::istream& addressStream);
     std::vector<uint32_t> * getBadAddresses();
     void sortAddresses();
+    void alignAllBadAddresses();
 
   private:
     std::vector<uint32_t> bad_addresses;
-    bool align_bad_address(uint32_t &addr);
+    void align_bad_address(uint32_t &addr);
 
 };
 

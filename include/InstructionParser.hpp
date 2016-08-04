@@ -12,6 +12,9 @@ class InstructionParser {
     ~InstructionParser();
     bool loadInstructions(char *dataBuf, uint32_t dataSize);
 
+  private:
+    void classify(uint32_t rawIns);
+
 };
 
 } // namespace FSPM

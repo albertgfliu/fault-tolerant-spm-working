@@ -1,6 +1,8 @@
 #include <AddressParser.hpp>
 #include <algorithm>
 #include <vector>
+#include <iostream>
+#include <regex>
 
 using namespace FSPM;
 
@@ -15,13 +17,26 @@ AddressParser::~AddressParser()
 bool
 AddressParser::readAddresses(std::istream& addressStream)
 {
-    //dynamically allocate read buffer inside here
-    //jump to start of stream
+    bool retval = true;
+    char addrBuf[256];
 
-    //read line by line until EOF
-    //if bad format found, then break by returning false
-    //otherwise, encode into numerical format and push_back into bad_addresses
-    return true;
+    //jump to start of stream
+    addressStream.seekg(addressStream.beg);
+
+    while (true) {
+        std::addressStream.getline(addrBuf, sizeof(addrBuf));
+
+        if (addressStream.eof()) {
+            break;
+        }
+
+        std::string addrString(addrBuf);
+        
+        //check format using regex
+        //encode numerically, push_back into bad_addresses;
+    }
+
+    return retval;
 }
 
 std::vector<uint32_t> *
@@ -36,10 +51,20 @@ AddressParser::sortAddresses()
     sort(bad_addresses.begin(), bad_addresses.end());
 }
 
-bool
+void
 AddressParser::align_bad_address(uint32_t &addr)
 {
     addr -= (addr % sizeof(addr));
+}
+
+bool
+AddressParser::alignAllBadAddresses()
+{
+    std::vector<uint32_t>::iterator it;
+
+    for(it = bad_addresses.begin(); it < bad_addresses.end(); it++) {
+        align_bad_address(*it);
+    }
 }
 
 /* Relevant code from the main driver below */
