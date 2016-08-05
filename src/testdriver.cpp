@@ -100,4 +100,20 @@ main(int argc, char* argv[])
     ap.printAddresses();
     addressFile.close();
 
+    elfio reader;
+    if (!reader.load(input_file_path)) {
+        std::cout << "Could not process provided ELF file." << std::endl;
+        return -1;
+    }
+
+    Elf_Half sec_num = reader.sections.size();
+
+    std::cout << "Number of sections: " << sec_num << std::endl;
+
+    for (int i = 0; i < sec_num; ++i) {
+        const section* psec = reader.sections[i];
+        const char* p = psec->get_data();
+        uint32_t sz = psec->get_size();
+        ip.loadInstructions(p, sz);
+    }
 }

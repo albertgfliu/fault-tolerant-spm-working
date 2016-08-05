@@ -10,7 +10,7 @@ class InstructionParser {
   public:
     InstructionParser();
     ~InstructionParser();
-    void loadInstructions(char *dataBuf, uint32_t dataSize);
+    void loadInstructions(const char *dataBuf, uint32_t dataSize);
     void loadInstructions(std::istream& dataStream);
 
   private:
