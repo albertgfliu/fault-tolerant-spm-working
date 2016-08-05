@@ -18,30 +18,24 @@ bool
 AddressParser::readAddresses(std::istream& addressStream)
 {
     bool retval = true;
-    char addrBuf[256];
-
+    
     //jump to start of stream
     addressStream.seekg(addressStream.beg);
 
     while (true) {
-        addressStream.getline(addrBuf, sizeof(addrBuf));
-
-        if (addressStream.eof()) {
+        std::string addrString;
+        if (!std::getline(addressStream, addrString)) {
             break;
         }
-
-        std::string addrString(addrBuf);
         
         std::regex reg0("(0x){0,1}[a-fA-F0-9]{1,8}", std::regex_constants::icase);
         std::sregex_iterator it(addrString.begin(), addrString.end(), reg0);
-
         std::sregex_iterator it_end;
 
-        //while (it != it_end) {
-        //    std::cout << *it << std::endl; // temporary debug printing
-        //}
-        //check format using regex
-        //encode numerically, push_back into bad_addresses;
+        while (it != it_end) {
+            std::cout << (*it).str() << std::endl;
+        }
+
     }
 
     return retval;
