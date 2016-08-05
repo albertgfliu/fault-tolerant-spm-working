@@ -12,9 +12,12 @@ InstructionParser::~InstructionParser()
 {
 }
 
-bool
+void
 InstructionParser::loadInstructions(char *dataBuf, uint32_t dataSize)
 {
-    return false;
 }
 
+void
+InstructionParser::loadInstructions(std::istream& dataStream)
+{
+}
