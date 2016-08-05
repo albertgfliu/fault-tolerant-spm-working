@@ -22,13 +22,15 @@ AddressParser::readAddresses(std::istream& addressStream)
     //jump to start of stream
     addressStream.seekg(addressStream.beg);
 
+    //parse through stream using regex
     while (true) {
         std::string addrString;
         if (!std::getline(addressStream, addrString)) {
             break;
         }
         
-        std::regex reg0("(0x){0,1}[a-fA-F0-9]{1,8}", std::regex_constants::icase);
+        std::regex reg0("(0x){0,1}[a-fA-F0-9]{1,8}", 
+                        std::regex_constants::icase);
         std::sregex_iterator it(addrString.begin(), addrString.end(), reg0);
         std::sregex_iterator it_end;
 
