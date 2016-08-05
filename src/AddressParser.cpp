@@ -64,13 +64,19 @@ AddressParser::align_bad_address(uint32_t &addr)
 }
 
 void
-AddressParser::alignAllBadAddresses()
+AddressParser::alignAddresses()
 {
     std::vector<uint32_t>::iterator it;
 
     for(it = bad_addresses.begin(); it < bad_addresses.end(); it++) {
         align_bad_address(*it);
     }
+}
+
+void
+AddressParser::removeDuplicateAddresses()
+{
+    // IMPLEMENT ME
 }
 
 /* Relevant code from the main driver below */

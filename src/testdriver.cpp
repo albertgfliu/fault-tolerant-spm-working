@@ -93,6 +93,9 @@ main(int argc, char* argv[])
     addressFile.open(std::string(address_file_path));
 
     ap.readAddresses(addressFile);
+    ap.alignAddresses();
+    ap.sortAddresses();
+    ap.removeDuplicateAddresses();
 
     addressFile.close();
 

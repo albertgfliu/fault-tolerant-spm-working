@@ -18,7 +18,8 @@ class AddressParser
     bool readAddresses(std::istream& addressStream);
     std::vector<uint32_t> * getBadAddresses();
     void sortAddresses();
-    void alignAllBadAddresses();
+    void alignAddresses();
+    void removeDuplicateAddresses();
 
   private:
     std::vector<uint32_t> bad_addresses;
