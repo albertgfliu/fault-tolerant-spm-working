@@ -36,6 +36,8 @@ AddressParser::readAddresses(std::istream& addressStream)
 
         while (it != it_end) {
             std::cout << (*it).str() << std::endl;
+            //insert string to uint32_t conversion, push_back into bad_addresses
+            ++it;
         }
 
     }

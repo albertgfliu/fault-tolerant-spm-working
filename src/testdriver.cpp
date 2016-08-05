@@ -15,9 +15,9 @@ using namespace FSPM;
 using namespace ELFIO;
 
 bool    verbose_flag = false;
-char *  input_file_path;
-char *  output_file_path;
-char *  address_file_path;
+char *  input_file_path = NULL;
+char *  output_file_path = NULL;
+char *  address_file_path = NULL;
 int     memory_size = 16384;
 
 void
@@ -25,7 +25,8 @@ printUsage(char *program_name)
 {
     std::cout << "Usage: " + 
                  std::string(program_name) + 
-                 " [-m memory_size] [-o output] input" << std::endl;
+                 "-a faulty address file -o output -i input \
+                  [-m memory size]" << std::endl;
 }
 
 int
@@ -37,44 +38,59 @@ main(int argc, char* argv[])
      */
     
     int c;
-    while ((c = getopt(argc, argv, "m:o:v")) != -1) {
+    while ((c = getopt(argc, argv, "a:i:m:o:v")) != -1) {
         switch (c) {
+            case 'a':
+                address_file_path = optarg;
+                break;
+            case 'i':
+                input_file_path = optarg;
+                break;
             case 'm':
                 memory_size = atoi(optarg);
                 break;
             case 'o':
                 output_file_path = optarg;
                 break;
-            case 'i':
-                input_file_path = optarg;
-                break;
             case 'v':
                 verbose_flag = true;
                 break;
             default:
                 printUsage(argv[0]);
-                return 0;
+                return -1;
         }
     }
 
     if (optind < argc) {
         input_file_path = argv[optind];
-        std::cout << "Input File Path: " +
-                     std::string(input_file_path) << std::endl;
     }
 
-    std::cout << "Memory Constraint: " + 
-                 std::to_string(memory_size) + 
-                 " bytes." << std::endl;
+    if (address_file_path == NULL ||
+        input_file_path == NULL ||
+        output_file_path == NULL) {
+        printUsage(argv[0]);
+        return -1;
+    } else {
 
-    std::cout << "Output File Path: " +
-                 std::string(output_file_path) << std::endl;
+        std::cout << "Address File Path: " + 
+                     std::string(address_file_path) << std::endl;
+
+        std::cout << "Input File Path: " +
+                     std::string(input_file_path) << std::endl;
+    
+        std::cout << "Output File Path: " +
+                     std::string(output_file_path) << std::endl;
+    
+        std::cout << "Memory Constraint: " + 
+                     std::to_string(memory_size) + 
+                     " bytes." << std::endl;
+    }
     
     AddressParser ap;
     InstructionParser ip;
 
     std::ifstream addressFile; // default mode parameter is ios::in
-    addressFile.open("addresses.txt");
+    addressFile.open(std::string(address_file_path));
 
     ap.readAddresses(addressFile);
 
