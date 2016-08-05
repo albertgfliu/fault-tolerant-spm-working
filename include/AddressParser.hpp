@@ -20,6 +20,8 @@ class AddressParser
     void sortAddresses();
     void alignAddresses();
     void removeDuplicateAddresses();
+    void printAddresses();
+    void filterRange(uint32_t begin, uint32_t end); //non-inclusive to end
 
   private:
     std::vector<uint32_t> bad_addresses;

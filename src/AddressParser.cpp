@@ -35,7 +35,7 @@ AddressParser::readAddresses(std::istream& addressStream)
         std::sregex_iterator it_end;
 
         while (it != it_end) {
-            std::cout << (*it).str() + " ";
+//            std::cout << (*it).str() + " ";
             uint32_t addr = (uint32_t) std::stoul((*it).str(), nullptr, 16);
             bad_addresses.push_back(addr);
             ++it;
@@ -86,4 +86,28 @@ AddressParser::removeDuplicateAddresses()
     bad_addresses.erase(std::unique(bad_addresses.begin(), bad_addresses.end()),
                         bad_addresses.end());
 
+}
+
+void
+AddressParser::printAddresses()
+{
+    std::vector<uint32_t>::iterator it;
+
+    for (it = bad_addresses.begin(); it < bad_addresses.end(); it++) {
+        std::cout << (*it) << std::endl;
+        
+
+    }
+
+}
+
+void
+AddressParser::filterRange(uint32_t begin, uint32_t end)
+{
+    bad_addresses.erase(std::remove_if(bad_addresses.begin(), 
+                                        bad_addresses.end(), 
+                                        [&](const uint32_t x) {
+                                            return ((x < begin) || (x >= end));
+                                        }), 
+                        bad_addresses.end());
 }
