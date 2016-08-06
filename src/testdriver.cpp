@@ -10,6 +10,7 @@
 #include <AddressParser.hpp>
 #include <Instruction.hpp>
 #include <InstructionParser.hpp>
+#include <MainUtils.hpp>
 
 using namespace FSPM;
 using namespace ELFIO;
@@ -85,9 +86,9 @@ main(int argc, char* argv[])
                      std::to_string(memory_size) + 
                      " bytes." << std::endl;
     }
-    
+
+    /* Load faulty addresses file */    
     AddressParser ap;
-    InstructionParser ip;
 
     std::ifstream addressFile; // default mode parameter is ios::in
     addressFile.open(std::string(address_file_path));
@@ -98,22 +99,30 @@ main(int argc, char* argv[])
     ap.removeDuplicateAddresses();
     ap.filterRange(536870912, 536880000); //test
     ap.printAddresses();
+
     addressFile.close();
 
+    /* Load ELF file */
     elfio reader;
     if (!reader.load(input_file_path)) {
         std::cout << "Could not process provided ELF file." << std::endl;
         return -1;
     }
-
-    Elf_Half sec_num = reader.sections.size();
-
-    std::cout << "Number of sections: " << sec_num << std::endl;
-
-    for (int i = 0; i < sec_num; ++i) {
-        const section* psec = reader.sections[i];
-        const char* p = psec->get_data();
-        uint32_t sz = psec->get_size();
-        ip.loadInstructions(p, sz);
+    if (reader.get_encoding() == ELFDATA2MSB) {
+        std::cout << "Can not process big-endian ELF file." << std::endl;
+        return -1;
     }
+
+    //Elf_Half sec_num = reader.sections.size();
+    //std::cout << "Number of sections: " << sec_num << std::endl;
+
+    /* Find the code section */
+    const section *codesection = getSectionByName(reader, ".text");
+
+    InstructionParser ip;
+    if (codesection != nullptr) {
+        ip.loadInstructions(codesection->get_data(), codesection->get_size());
+    }
+
+    std::cout << codesection->get_size() << std::endl;
 }
