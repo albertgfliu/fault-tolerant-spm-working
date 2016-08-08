@@ -12,7 +12,6 @@ namespace FSPM {
 class InstructionBase
 {
   public:
-    virtual ~InstructionBase();
     virtual size_t getSize() = 0;
     virtual uint32_t getType() = 0; /* Returns a value from enum based on OpCode */
 };
@@ -31,6 +30,32 @@ class Instruction : public InstructionBase
     uint32_t m_offset; /* Holds offset of instruction in ELF */
     std::vector<Instruction *> m_references;
 };
+
+template <class T>
+Instruction<T>::Instruction(T rawInstruction, uint32_t elfOffset) :
+    m_raw_instruction(rawInstruction),
+    m_offset(elfOffset)
+{
+}
+
+template <class T>
+Instruction<T>::~Instruction()
+{
+}
+
+template <class T>
+size_t
+Instruction<T>::getSize()
+{
+    return sizeof(T);
+}
+
+template <class T>
+uint32_t
+Instruction<T>::getType()
+{
+    return 0;
+}
 
 } // namespace FSPM
 

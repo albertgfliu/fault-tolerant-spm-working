@@ -14,8 +14,9 @@ class InstructionParser {
     void loadInstructions(std::istream& dataStream);
 
   private:
+    bool getNextRaw(uint32_t &outRaw, std::istream& dataStream);
     void classify(uint32_t rawIns);
-
+    bool is32Bit(const uint32_t &rawIns);
 };
 
 } // namespace FSPM
