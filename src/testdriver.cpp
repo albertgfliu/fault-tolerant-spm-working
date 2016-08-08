@@ -98,7 +98,7 @@ main(int argc, char* argv[])
     ap.sortAddresses();
     ap.removeDuplicateAddresses();
     ap.filterRange(536870912, 536880000); //test
-    ap.printAddresses();
+    //ap.printAddresses();
 
     addressFile.close();
 

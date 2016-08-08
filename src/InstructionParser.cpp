@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <iostream>
 #include <InstructionParser.hpp>
 #include <ThumbIsa.hpp>
@@ -32,20 +33,24 @@ InstructionParser::loadInstructions(std::istream& dataStream)
         ARM Thumb is by default 16-bit little endian, so a check for 32-bit 
         little endian is necessary. There are no checks for big endian at 
         this time. */
-
+    
+    //temporary until code entry point is solved
     uint16_t tmpRawIns;
     while (getNextRaw(tmpRawIns, dataStream) == true) {
         //if we enter the loop, then tmpRawIns is valid. Process it.
         if (is32Bit(tmpRawIns)) {
-            //then do one more processing sequence, shoving into upper bits
+            uint16_t upperRawIns;
+            if (getNextRaw(upperRawIns, dataStream) == true) {
+                uint32_t raw32Bit = construct32Bit(tmpRawIns, upperRawIns);
+            }
+            else {
+                std::cout << "Couldn't read in the middle." << std::endl;
+                break;
+            }
             std::cout << "Got something that's 32-bit." << std::endl;
         } 
         else { //is 16 bit
             std::cout << "Got something that's 16-bit." << std::endl;
-            //dynamically allocate Instruction and push_back
-            //Instruction<uint16_t> * tmpIns = 
-            //    new Instruction<uint16_t>(tmpRawIns, dataStream.tellg());
-            
         }
     }
     std::cout << "I guess we are done parsing." << std::endl;
@@ -80,12 +85,13 @@ InstructionParser::getNextRaw(uint16_t &outRaw, std::istream& dataStream)
 {
     outRaw = 0;
     char lower, upper;
-    if (!dataStream.get(lower)) { return false; }
-    if (!dataStream.get(upper)) { return false; }
-    //lower = (uint8_t) dataStream.get();
-    //upper = (uint8_t) dataStream.get();
+    
+    if (!dataStream.get(lower)) { return false; };
+    if (!dataStream.get(upper)) { return false; };
+
     outRaw = construct16Bit((uint8_t) lower, (uint8_t) upper);
-    return true; //UPDATE TO FAIL IF END OF STREAM
+    printf("%d %d\n", lower, upper);
+    return true;
 }
 
 uint16_t
