@@ -22,6 +22,8 @@ class AddressParser
     void removeDuplicateAddresses();
     void printAddresses();
     void filterRange(uint32_t begin, uint32_t end); //non-inclusive to end
+    
+    bool validateFaults(elfio &elf);
 
   private:
     std::vector<uint32_t> bad_addresses;

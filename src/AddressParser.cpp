@@ -111,3 +111,15 @@ AddressParser::filterRange(uint32_t begin, uint32_t end)
                                         }), 
                         bad_addresses.end());
 }
+
+bool
+validateFaults(elfio &elf)
+{
+    /* This method validates whether or not the elf has faults within the 
+    designated protected address range */
+    
+    
+
+
+    return false;
+}

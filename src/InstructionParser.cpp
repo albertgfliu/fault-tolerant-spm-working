@@ -35,6 +35,10 @@ InstructionParser::loadInstructions(std::istream& dataStream)
         this time. */
     
     //temporary until code entry point is solved
+    //dataStream.seekg(0, std::ios_base::beg);
+    
+    std::vector<Instruction *> instructions;
+
     uint16_t tmpRawIns;
     while (getNextRaw(tmpRawIns, dataStream) == true) {
         //if we enter the loop, then tmpRawIns is valid. Process it.
@@ -42,6 +46,8 @@ InstructionParser::loadInstructions(std::istream& dataStream)
             uint16_t upperRawIns;
             if (getNextRaw(upperRawIns, dataStream) == true) {
                 uint32_t raw32Bit = construct32Bit(tmpRawIns, upperRawIns);
+                Instruction *tmp32 = new Instruction32();
+                instructions.push_back(tmp32);
             }
             else {
                 std::cout << "Couldn't read in the middle." << std::endl;
@@ -51,9 +57,13 @@ InstructionParser::loadInstructions(std::istream& dataStream)
         } 
         else { //is 16 bit
             std::cout << "Got something that's 16-bit." << std::endl;
+            Instruction *tmp16 = new Instruction16();
+            instructions.push_back(tmp16);
         }
     }
     std::cout << "I guess we are done parsing." << std::endl;
+
+    //free the vector? lol
 }
 
 void

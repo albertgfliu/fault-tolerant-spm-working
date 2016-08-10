@@ -2,6 +2,8 @@
 #define INSTRUCTION_PARSER_HPP
 
 #include <iostream>
+#include <vector>
+#include <Instruction.hpp>
 
 namespace FSPM {
 
@@ -19,6 +21,9 @@ class InstructionParser {
     bool is32Bit(const uint16_t &rawIns);
     uint16_t construct16Bit(uint8_t lower, uint8_t upper);
     uint32_t construct32Bit(uint16_t lower, uint16_t upper);
+
+    std::vector<Instruction> instructions;
+    
 };
 
 } // namespace FSPM
