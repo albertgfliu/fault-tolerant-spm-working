@@ -50,7 +50,7 @@ InstructionParser::loadInstructions(std::istream& dataStream)
                 instructions.push_back(tmp32);
             }
             else {
-                std::cout << "Couldn't read in the middle." << std::endl;
+                std::cout << "Couldn't process lower half-word of 32-bit." << std::endl;
                 break;
             }
             std::cout << "Got something that's 32-bit." << std::endl;
@@ -61,9 +61,8 @@ InstructionParser::loadInstructions(std::istream& dataStream)
             instructions.push_back(tmp16);
         }
     }
-    std::cout << "I guess we are done parsing." << std::endl;
+    std::cout << "Finished parsing instructions." << std::endl;
 
-    //free the vector? lol
 }
 
 void

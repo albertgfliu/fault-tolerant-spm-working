@@ -7,6 +7,8 @@
 
 #include <elfio/elfio.hpp>
 
+#include <optionparser.h>
+
 #include <AddressParser.hpp>
 #include <Instruction.hpp>
 #include <InstructionParser.hpp>
@@ -35,7 +37,7 @@ main(int argc, char* argv[])
 {
     /* OPTION PARSING SECTION
      * This part of the program parses arguments and sets fields accordingly.
-     * This could be modularized in the future, but may be unnecessary.
+     * This portion will replaced by the optionparser.h library.
      */
     
     int c;
