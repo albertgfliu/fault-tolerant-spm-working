@@ -37,18 +37,18 @@ InstructionParser::loadInstructions(std::istream& dataStream)
     //temporary until code entry point is solved
     //dataStream.seekg(0, std::ios_base::beg);
 
-    uint16_t tmpRawIns;
-    while (getNextRaw(tmpRawIns, dataStream) == true) {
+    uint16_t hw1;
+    while (getNextRaw(hw1, dataStream) == true) {
         //if we enter the loop, then tmpRawIns is valid. Process it.
-        if (is32Bit(tmpRawIns)) {
-            uint16_t upperRawIns;
-            if (getNextRaw(upperRawIns, dataStream) == true) {
-                uint32_t raw32Bit = construct32Bit(tmpRawIns, upperRawIns);
+        if (is32Bit(hw1)) {
+            uint16_t hw2;
+            if (getNextRaw(hw2, dataStream) == true) {
+                uint32_t raw32Bit = construct32Bit(hw1, hw2);
                 Instruction *tmp32 = new Instruction32(raw32Bit);
                 instructions.push_back(tmp32);
             }
             else {
-                std::cout << "Couldn't process lower half-word of 32-bit." 
+                std::cout << "Couldn't process upper half-word of 32-bit." 
                           << std::endl;
                 break;
             }
@@ -56,7 +56,7 @@ InstructionParser::loadInstructions(std::istream& dataStream)
         } 
         else { //is 16 bit
             std::cout << "Got something that's 16-bit." << std::endl;
-            Instruction *tmp16 = new Instruction16(tmpRawIns);
+            Instruction *tmp16 = new Instruction16(hw1);
             instructions.push_back(tmp16);
         }
     }
@@ -76,7 +76,9 @@ InstructionParser::is32Bit(const uint16_t &rawIns)
         function for other architectures (if necessary). */
 
     /*  If bits [15:11] of half-word being decoded are 0b11101, 0b11110, or 
-        0b11111, then it is the lower half of a 32-bit instruction. */
+        0b11111, then it is the first halfword of a 32-bit instruction in a
+        little-endian encoded executable file. Note: confirm if first halfword 
+        means the upper 16 bits or lower 16 bits. */
 
     //If bits [15:13] are not 1s, it is not 32-bit
     if ((rawIns & 0xE000) != 0xE000) { return false; }
