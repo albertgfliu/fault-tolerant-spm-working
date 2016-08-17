@@ -8,6 +8,8 @@
 #include <vector>
 #include <iostream>
 
+#include <elfio/elfio.hpp>
+
 namespace FSPM {
 
 class AddressParser
@@ -23,7 +25,7 @@ class AddressParser
     void printAddresses();
     void filterRange(uint32_t begin, uint32_t end); //non-inclusive to end
     
-    bool validateFaults(elfio &elf);
+    bool validateFaults(ELFIO::elfio &elf);
 
   private:
     std::vector<uint32_t> bad_addresses;

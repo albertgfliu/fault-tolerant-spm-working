@@ -4,6 +4,7 @@
 #include <iostream>
 #include <regex>
 
+using namespace ELFIO;
 using namespace FSPM;
 
 AddressParser::AddressParser()
