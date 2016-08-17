@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <vector>
 
 /* Enumerate for instruction types */
 
@@ -11,7 +12,6 @@ namespace FSPM {
 class WordBase
 {
   public:
-//    WordBase(uint32_t raw, uint32_t offset);
     virtual size_t getSize() = 0;
     uint32_t getOffset();
 
@@ -22,11 +22,17 @@ class WordBase
 
 class Instruction : public WordBase {
   public:
+    ~Instruction();
     virtual uint32_t getType() = 0;
+
+  protected:
+    std::vector<WordBase *> references;
 };
 
 class Instruction16 : public Instruction {
   public:
+    Instruction16(uint16_t raw);
+    ~Instruction16();
     size_t getSize();
     uint32_t getType(); 
     uint16_t getRaw();
@@ -34,6 +40,8 @@ class Instruction16 : public Instruction {
 
 class Instruction32 : public Instruction {
   public:
+    Instruction32(uint32_t raw);
+    ~Instruction32();
     size_t getSize();
     uint32_t getType();
     uint32_t getRaw();
@@ -41,6 +49,9 @@ class Instruction32 : public Instruction {
 
 class Constant : public WordBase {
   public:
+    Constant(uint16_t raw);
+    Constant(uint32_t raw);
+    ~Constant();
     size_t getSize(); // current assumption is constants are 16-bits
     uint16_t getRaw(); // current assumption is constants are 16-bits
 };

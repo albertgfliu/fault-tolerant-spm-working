@@ -1,19 +1,40 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <vector>
 #include <Instruction.hpp>
 
 using namespace FSPM;
 
-/*WordBase::WordBase(uint32_t raw, uint32_t offset): 
-    m_raw(raw), 
-    m_offset(offset)
-{
-}*/
+//////////WordBase//////////
 
 uint32_t
 WordBase::getOffset()
 {
     return m_offset;
+}
+
+////////////////////////////
+
+//Instruction////////////////
+
+Instruction::~Instruction()
+{
+    std::vector<WordBase *>::iterator it;
+    for (it = references.begin(); it < references.end(); it++) {
+        delete (*it);
+    }
+    references.clear();
+}
+
+//Instruction16//////////////
+
+Instruction16::Instruction16(uint16_t raw)
+{
+    m_raw = (uint32_t) raw;
+}
+
+Instruction16::~Instruction16()
+{
 }
 
 size_t
@@ -34,6 +55,21 @@ Instruction16::getRaw()
     return (uint16_t) m_raw;
 }
 
+//////////////////////////////
+
+
+
+//Instruction32////////////////
+
+Instruction32::Instruction32(uint32_t raw)
+{
+    m_raw = raw;
+}
+
+Instruction32::~Instruction32()
+{
+}
+
 size_t
 Instruction32::getSize()
 {
@@ -52,6 +88,25 @@ Instruction32::getRaw()
     return (uint32_t) m_raw;
 }
 
+/////////////////////////////////
+
+
+//Constant///////////////////////
+
+Constant::Constant(uint16_t raw)
+{
+    m_raw = (uint32_t) raw;
+}
+
+Constant::Constant(uint32_t raw)
+{
+    m_raw = raw;
+}
+
+Constant::~Constant()
+{
+}
+
 size_t
 Constant::getSize()
 {
@@ -63,3 +118,5 @@ Constant::getRaw()
 {
     return (uint16_t) m_raw;
 }
+
+/////////////////////////////////

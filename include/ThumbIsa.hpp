@@ -32,7 +32,7 @@ enum ops {
     PUSH,
     ROR,
     SBC,
-    STMIA
+    STMIA,
     STR,
     STRB,
     STRH,

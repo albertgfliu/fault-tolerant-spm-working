@@ -36,8 +36,6 @@ InstructionParser::loadInstructions(std::istream& dataStream)
     
     //temporary until code entry point is solved
     //dataStream.seekg(0, std::ios_base::beg);
-    
-    std::vector<Instruction *> instructions;
 
     uint16_t tmpRawIns;
     while (getNextRaw(tmpRawIns, dataStream) == true) {
@@ -46,18 +44,19 @@ InstructionParser::loadInstructions(std::istream& dataStream)
             uint16_t upperRawIns;
             if (getNextRaw(upperRawIns, dataStream) == true) {
                 uint32_t raw32Bit = construct32Bit(tmpRawIns, upperRawIns);
-                Instruction *tmp32 = new Instruction32();
+                Instruction *tmp32 = new Instruction32(raw32Bit);
                 instructions.push_back(tmp32);
             }
             else {
-                std::cout << "Couldn't process lower half-word of 32-bit." << std::endl;
+                std::cout << "Couldn't process lower half-word of 32-bit." 
+                          << std::endl;
                 break;
             }
             std::cout << "Got something that's 32-bit." << std::endl;
         } 
         else { //is 16 bit
             std::cout << "Got something that's 16-bit." << std::endl;
-            Instruction *tmp16 = new Instruction16();
+            Instruction *tmp16 = new Instruction16(tmpRawIns);
             instructions.push_back(tmp16);
         }
     }

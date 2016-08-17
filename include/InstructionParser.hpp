@@ -22,7 +22,7 @@ class InstructionParser {
     uint16_t construct16Bit(uint8_t lower, uint8_t upper);
     uint32_t construct32Bit(uint16_t lower, uint16_t upper);
 
-    std::vector<Instruction> instructions;
+    std::vector<Instruction *> instructions;
     
 };
 
