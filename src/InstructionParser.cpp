@@ -94,9 +94,12 @@ InstructionParser::getNextRaw(uint16_t &outRaw, std::istream& dataStream)
     outRaw = 0;
     char lower, upper;
     
+    //little endian, get lower byte first
     if (!dataStream.get(lower)) { return false; };
+    //little endian, get upper byte second
     if (!dataStream.get(upper)) { return false; };
 
+    //construct 16-bit instruction
     outRaw = construct16Bit((uint8_t) lower, (uint8_t) upper);
     printf("%d %d\n", lower, upper);
     return true;
@@ -105,12 +108,14 @@ InstructionParser::getNextRaw(uint16_t &outRaw, std::istream& dataStream)
 uint16_t
 InstructionParser::construct16Bit(uint8_t lower, uint8_t upper)
 {
-    return ((((uint16_t) upper) << (sizeof(lower) * 8)) & ((uint16_t) lower));
+    //shift upper byte left, bit-wise OR with lower byte
+    return ((((uint16_t) upper) << (sizeof(lower) * 8)) | ((uint16_t) lower));
 }
 
 uint32_t
 InstructionParser::construct32Bit(uint16_t lower, uint16_t upper)
 {
-    return ((((uint32_t) upper) << (sizeof(lower) * 8)) & ((uint32_t) lower));
+    //shift upper half-word left, bit-wise OR with lower byte
+    return ((((uint32_t) upper) << (sizeof(lower) * 8)) | ((uint32_t) lower));
 }
 
