@@ -43,20 +43,22 @@ InstructionParser::loadInstructions(std::istream& dataStream)
         if (is32Bit(hw1)) {
             uint16_t hw2;
             if (getNextRaw(hw2, dataStream) == true) {
-                uint32_t raw32Bit = construct32Bit(hw1, hw2);
+                uint32_t raw32Bit = construct32Bit(hw2, hw1);
                 Instruction *tmp32 = new Instruction32(raw32Bit);
                 instructions.push_back(tmp32);
+                std::cout << "Processed a 32-bit word." << std::endl;
+                //insert a raw dump on this line
             }
             else {
                 std::cout << "Couldn't process upper half-word of 32-bit." 
                           << std::endl;
                 break;
             }
-            std::cout << "Got something that's 32-bit." << std::endl;
         } 
         else { //is 16 bit
-            std::cout << "Got something that's 16-bit." << std::endl;
+            std::cout << "Processed a 16-bit word." << std::endl;
             Instruction *tmp16 = new Instruction16(hw1);
+            //insert a raw dump on this line
             instructions.push_back(tmp16);
         }
     }
@@ -78,7 +80,8 @@ InstructionParser::is32Bit(const uint16_t &rawIns)
     /*  If bits [15:11] of half-word being decoded are 0b11101, 0b11110, or 
         0b11111, then it is the first halfword of a 32-bit instruction in a
         little-endian encoded executable file. Note: confirm if first halfword 
-        means the upper 16 bits or lower 16 bits. */
+        means the upper 16 bits or lower 16 bits. Documentation suggests that
+        hw1 is the upper half and hw2 is the lower half */
 
     //If bits [15:13] are not 1s, it is not 32-bit
     if ((rawIns & 0xE000) != 0xE000) { return false; }

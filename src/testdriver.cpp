@@ -13,6 +13,7 @@
 #include <Instruction.hpp>
 #include <InstructionParser.hpp>
 #include <MainUtils.hpp>
+#include <Options.hpp>
 
 using namespace FSPM;
 using namespace ELFIO;
@@ -39,6 +40,8 @@ main(int argc, char* argv[])
      * This part of the program parses arguments and sets fields accordingly.
      * This portion will replaced by the optionparser.h library.
      */
+
+
     
     int c;
     while ((c = getopt(argc, argv, "a:i:m:o:v")) != -1) {
